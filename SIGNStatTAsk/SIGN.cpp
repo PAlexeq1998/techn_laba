@@ -12,7 +12,7 @@ name(name), surname(surname), sign(sign){
 		this->date[1] = 0;
 		this->date[2] = 0;
 	}
-    //nконструктор SIGN
+    std::cout << "\nконструктор SIGN"; 
 }
 
 SIGN::SIGN(const SIGN& s):
@@ -20,10 +20,10 @@ name(s.name), surname(s.surname), sign(s.sign){
 	date[0] = s.date[0];
 	date[1] = s.date[1];
 	date[2] = s.date[2];
-	//конструктор копирования SIGN
+	 std::cout << "\nконструктор копирования SIGN"; 
 }
 
-SIGN::~SIGN() {}//деструктор SIGN
+SIGN::~SIGN(){ std::cout << "\nдеструктор SIGN"; }
 
 SIGN& SIGN::operator=(const SIGN& s){//оператор присваивания
 	name = s.name;
@@ -69,7 +69,7 @@ void SIGN::Surname(const std::string& surname){
 
 std::istream& operator>>(std::istream& in, SIGN& s){//оператор ввода
 	if(!(in >> s.name >> s.surname >> s.sign >> s.date[0] >> s.date[1] >> s.date[2])){
-		throw Exception("В дате не должны присутствовать символы");
+		throw Exception("Некорректный ввод");
 	}
 	return in;
 }
