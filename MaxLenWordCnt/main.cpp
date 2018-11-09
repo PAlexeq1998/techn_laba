@@ -5,30 +5,46 @@
 
 using namespace std;
 
-int main(){
+void enter(string word, int cword);	 //функция для вывода
+void work(ifstream& in); //функция для работы с файлом   
+
+int main() 
+{
 	setlocale(LC_ALL, "");
-	ifstream in("input.txt");
+	ifstream io("input.txt");
+
+	work(io);
+
+	io.close();//закрываем файл										   
+	system("pause>>void");
+}
+
+void enter(string word, int cword)
+{
+	cout << "count = " << cword << '\n';
+	cout << word;// выводим предложение
+}
+
+void work(ifstream& in)
+{
 	string line;//слово
 	stringstream ss;	//строковый поток
 	int maxlen = -1; //максимальное значение
 	int cnt = 1;//счётчик 1 так как одно слово всегда есть
-	while(in >> line){//считываем по предложению
-		int o =	line.length();
+	while (in >> line) {//считываем по предложению
+		int o = line.length();
 		//если больше предыдущего
-		if(o > maxlen){
-			 maxlen = o;
-			 cnt = 1;
-			 ss.str(std::string());//очищаем
-			 ss << line;
+		if (o > maxlen) {
+			maxlen = o;
+			cnt = 1;
+			ss.str(std::string());//очищаем
+			ss << line;
 		}
 		//если длна равна максимальной
-		else if(o == maxlen && ss.str() == line) {
-			 ++cnt;
+		else if (o == maxlen && ss.str() == line) {
+			++cnt;
 		}
 
 	}
-	cout << "count = " << cnt << '\n';
-	cout << ss.str();// выводим предложение
-	in.close();//закрываем файл										   
-	system("pause>>void");
+	enter(ss.str(), cnt);
 }
