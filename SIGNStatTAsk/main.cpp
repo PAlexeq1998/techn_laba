@@ -1,57 +1,67 @@
-#include "Upr.hpp"
+#include "SIGN.hpp"
+#include "List.hpp"
 
 using namespace std;
 
 int main(){
-	const int size = 3;//размер массива
+	const int size = 5;//СЂР°Р·РјРµСЂ РјР°СЃСЃРёРІР°
 	setlocale(LC_ALL, "");
-
-	Upr *wr = new Upr();
+	list<SIGN> signs;//СЃР°Рј РјР°СЃСЃРёРІ Р·РЅР°РєРѕРІ Р·РѕРґРёР°РєР°
+	for(int i = 0; i < size; ++i){
+		signs.add(SIGN());
+	}
 	int a;
 	while(true){
-		 cout << "\n1. Считать данные\n2. Вывод \n3. Поиск\n4. Выход\n-> ";
+		 cout << "\n1. РЎС‡РёС‚Р°С‚СЊ РґР°РЅРЅС‹Рµ\n2. РџРѕРёСЃРє\n3. Р’С‹РІРѕРґ РІСЃРµС…\n4. Р’С‹С…РѕРґ\n-> ";
 		 cin >> a;
-		 if(a == 1)
-		 {
-			 wr->getSIGNs(size);
+		 if(a == 1){
+			 cout << "РРјСЏ Р¤Р°РјРёР»РёСЏ Р—РЅР°Рє DD MM YY\n";
+			 try{
+				 //СЃС‡РёС‚С‹РІР°РµРј РґР°РЅРЅС‹Рµ
+				for(int i = 0; i < size; ++i){
+				   cin >> signs[i];
+				}
+				/*РЎРѕСЂС‚РёСЂСѓРµРј*/
+				int j, n = size;
+				do {
+				int nn = 0;
+				for (j = 1; j < n; ++j)
+					if (signs[j-1].Date()[0] > signs[j].Date()[0] && 
+						signs[j-1].Date()[1] > signs[j].Date()[1] && 
+						signs[j-1].Date()[2] > signs[j].Date()[2]) {
+						SIGN temp = signs[j-1];
+						signs[j-1] = signs[j];
+						signs[j] = temp;
+						nn = j;
+					}
+					n = nn;
+				} while (n);
+			 }
+			 catch(const Exception& e){
+				cout << "\n" << e.what();
+			 }
 		 }
-		 if(a == 2)
-		 {
-			 cout << *wr;
-		 }
-		 if (a == 3) {
-			 cout << "Введите фамилию: ";
+		 if(a == 2){
+			 cout << "Р’РІРµРґРёС‚Рµ С„Р°РјРёР»РёСЋ: ";
 			 string targ;
 			 cin >> targ;
 			 int i;
-			 int flag = 0;
-			 for (i = 0; i < size; ++i) {
-				 if (signs[i].Surname() == targ) {
-					 cout << "\n" << signs[i];
-					 flag = 1;
-				 }
+			 for(i = 0; i < size; ++i){
+				if(signs[i].Surname() == targ){
+					cout << "\n" << signs[i];
+				}
 			 }
-			 if (flag == 0) {
-				 cout << "Не найдено!";
+			 if(i >= size){
+				cout << "РќРµ РЅР°Р№РґРµРЅРѕ!";
 			 }
 		 }
-		 {
-			 cout << "Введите фамилию: ";
-			 string targ;
-			 cin >> targ;
-			 wr->showBySername(targ);
+		 else if(a == 3){
+		   for(int i = 0; i < size; ++i){
+					cout << "\n" << signs[i];
+			 }
 		 }
-		 if (a == 4) {
+		 if(a == 4){
 			 return 0;
-		 }
-		 {}
-		 else {
-			 if (a != 1 && a != 2) {
-				 cout << "\nНекорректный ввод!";
-				 cin.clear();
-				 while (cin.get() != '\n')
-					 continue;
-			 }
 		 }
 	}
 }
