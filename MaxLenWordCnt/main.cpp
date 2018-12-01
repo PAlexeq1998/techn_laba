@@ -5,8 +5,10 @@
 
 using namespace std;
 
-void enter(string word, int cword);	 //функция для вывода
-void work(ifstream& in); //функция для работы с файлом   
+void enter(string word, int cword);	 //С„СѓРЅРєС†РёСЏ РґР»СЏ РІС‹РІРѕРґР°
+int Exception(ifstream& inn); // С„СѓРЅРєС†РёСЏ РґР»СЏ РёСЃРєР»СЋС‡РµРЅРёР№
+void work(ifstream& in); //С„СѓРЅРєС†РёСЏ РґР»СЏ СЂР°Р±РѕС‚С‹ СЃ С„Р°Р№Р»РѕРј 
+
 
 int main() 
 {
@@ -15,32 +17,51 @@ int main()
 
 	work(io);
 
-	io.close();//закрываем файл										   
+	io.close();//Р·Р°РєСЂС‹РІР°РµРј С„Р°Р№Р»										   
 	system("pause>>void");
 }
 
 void enter(string word, int cword)
 {
 	cout << "count = " << cword << '\n';
-	cout << word;// выводим предложение
+	cout << word;// РІС‹РІРѕРґРёРј РїСЂРµРґР»РѕР¶РµРЅРёРµ
+}
+
+int Exception(ifstream& inn)
+{
+	if (!inn.is_open())
+	{
+		cout << "File is not open\n"; // РµСЃР»Рё С„Р°Р№Р» РЅРµ РѕС‚РєСЂС‹Р»СЃСЏ
+		return 1;
+	}
+	else if (inn.peek() == EOF)
+	{
+		cout << "File is empty\n"; // РµСЃР»Рё С„Р°Р№Р» РїСѓСЃС‚РѕР№
+		return 1;
+	}
 }
 
 void work(ifstream& in)
 {
-	string line;//слово
-	stringstream ss;	//строковый поток
-	int maxlen = -1; //максимальное значение
-	int cnt = 1;//счётчик 1 так как одно слово всегда есть
-	while (in >> line) {//считываем по предложению
+	int flag = Exception(in);
+	
+	if (flag == 1)
+		return;
+
+	string line;//СЃР»РѕРІРѕ
+	stringstream ss;	//СЃС‚СЂРѕРєРѕРІС‹Р№ РїРѕС‚РѕРє
+	int maxlen = -1; //РјР°РєСЃРёРјР°Р»СЊРЅРѕРµ Р·РЅР°С‡РµРЅРёРµ
+	int cnt = 1;//СЃС‡С‘С‚С‡РёРє 1 С‚Р°Рє РєР°Рє РѕРґРЅРѕ СЃР»РѕРІРѕ РІСЃРµРіРґР° РµСЃС‚СЊ
+	while (in >> line) {//СЃС‡РёС‚С‹РІР°РµРј РїРѕ СЃР»РѕРІСѓ
 		int o = line.length();
-		//если больше предыдущего
+		//РµСЃР»Рё Р±РѕР»СЊС€Рµ РїСЂРµРґС‹РґСѓС‰РµРіРѕ
 		if (o > maxlen) {
 			maxlen = o;
 			cnt = 1;
-			ss.str(std::string());//очищаем
+			ss.str(string());//РѕС‡РёС‰Р°РµРј
 			ss << line;
 		}
-		//если длна равна максимальной
+		//РµСЃР»Рё РґР»РЅР° СЂР°РІРЅР° РјР°РєСЃРёРјР°Р»СЊРЅРѕР№
 		else if (o == maxlen && ss.str() == line) {
 			++cnt;
 		}
