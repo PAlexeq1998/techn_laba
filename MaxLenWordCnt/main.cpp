@@ -6,7 +6,6 @@
 using namespace std;
 
 void enter(string word, int cword);	 //функция для вывода
-int Exception(ifstream& inn); // функция для исключений
 void work(ifstream& in); //функция для работы с файлом 
 
 
@@ -15,11 +14,22 @@ int main()
 	setlocale(LC_ALL, "");
 	ifstream io("input.txt");
 
-	work(io);
-
-	io.close();//закрываем файл										   
+	io.exceptions(ifstream::failbit);
+	try
+	{
+		io.open("input.txt");
+		work(io);
+		io.close();
+	}
+	catch (const ifstream::failure& exc)
+	{
+		cout << "Error while opening file: " << endl << exc.what() << endl;
+	}
+									   
 	system("pause>>void");
 }
+
+
 
 void enter(string word, int cword)
 {
@@ -27,27 +37,9 @@ void enter(string word, int cword)
 	cout << word;// выводим предложение
 }
 
-int Exception(ifstream& inn)
-{
-	if (!inn.is_open())
-	{
-		cout << "File is not open\n"; // если файл не открылся
-		return 1;
-	}
-	else if (inn.peek() == EOF)
-	{
-		cout << "File is empty\n"; // если файл пустой
-		return 1;
-	}
-}
 
 void work(ifstream& in)
 {
-	int flag = Exception(in);
-	
-	if (flag == 1)
-		return;
-
 	string line;//слово
 	stringstream ss;	//строковый поток
 	int maxlen = -1; //максимальное значение
